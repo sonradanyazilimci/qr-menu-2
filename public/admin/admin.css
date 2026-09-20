@@ -175,7 +175,7 @@ dialog.modal::backdrop { background: #0007; }
 .vrow.head { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
 .vrow input { margin: 0; }
 
-.toast { position: fixed; left: 50%; bottom: 24px; translate: -50% 0; background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 10px; z-index: 100; font-weight: 600; box-shadow: 0 6px 24px #0004; max-width: 92vw; }
+.toast { position: fixed; inset: auto; margin: 0; border: 0; left: 50%; bottom: 24px; translate: -50% 0; background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 10px; z-index: 100; font-weight: 600; box-shadow: 0 6px 24px #0004; max-width: 92vw; }
 .toast.err { background: var(--danger); }
 
 /* QR */

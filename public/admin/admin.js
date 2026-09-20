@@ -30,8 +30,10 @@
     t.textContent = msg;
     t.className = 'toast' + (isErr ? ' err' : '');
     t.hidden = false;
+    // Açık <dialog> (ürün formu) üst katmandadır; uyarı da popover ile aynı katmana çıkar, aksi halde pencerenin arkasında kalır
+    if (t.showPopover) { if (t.matches(':popover-open')) t.hidePopover(); t.showPopover(); }
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => (t.hidden = true), isErr ? 5000 : 2200);
+    toastTimer = setTimeout(() => { t.hidden = true; if (t.hidePopover) t.hidePopover(); }, isErr ? 5000 : 2200);
   }
   const fail = (e) => { console.error(e); toast(explain(e), true); };
 
