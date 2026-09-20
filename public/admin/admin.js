@@ -300,7 +300,8 @@
               <input id="f-file" type="file" accept="image/png,image/jpeg,image/webp" style="width:auto">
               <button class="btn sm danger" type="button" id="f-rmimg" ${E.image ? '' : 'hidden'}>Görseli kaldır</button>
             </div>
-            <small>PNG/JPEG/WebP. Otomatik olarak küçültülür. Şeffaf PNG önerilir.</small>
+            <label style="margin-top:10px">veya görsel linki<input id="f-imgurl" type="url" inputmode="url" maxlength="500" placeholder="https://ornek.com/urun.jpg" value="${/^https:/i.test(E.image) ? esc(E.image) : ''}"></label>
+            <small>Dosya: PNG/JPEG/WebP, otomatik küçültülür. Link: yalnızca https ile başlayan doğrudan görsel adresi; görsel o sitede kalır, silinirse menüde görünmez.</small>
           </div>
           <label class="check wide"><input id="f-av" type="checkbox" ${E.available ? 'checked' : ''}> Satışta (kapalıysa menüde “Tükendi” görünür)</label>
         </div></fieldset>
@@ -433,7 +434,7 @@
       E.tags = E.tags.includes(id) ? E.tags.filter((x) => x !== id) : [...E.tags, id];
       tag.setAttribute('aria-pressed', String(E.tags.includes(id)));
     }
-    if (t.id === 'f-rmimg') { E.image = ''; $('#f-thumb').hidden = true; $('#f-thumb-ph').hidden = false; t.hidden = true; }
+    if (t.id === 'f-rmimg') { E.image = ''; $('#f-thumb').hidden = true; $('#f-thumb-ph').hidden = false; $('#f-imgurl').value = ''; t.hidden = true; }
     if (t.id === 'f-del') {
       if (!confirm(`“${E.name}” silinsin mi? Bu işlem geri alınamaz.`)) return;
       try {
@@ -459,12 +460,24 @@
       try {
         toast('Görsel yükleniyor…');
         E.image = await uploadImage(file, 640);
+        $('#f-imgurl').value = '';
         $('#f-thumb').src = E.image;
         $('#f-thumb').hidden = false;
         $('#f-thumb-ph').hidden = true;
         $('#f-rmimg').hidden = false;
         toast('Görsel yüklendi (Kaydet’e basmayı unutmayın)');
       } catch (ex) { fail(ex); }
+    }
+    if (e.target.id === 'f-imgurl') {
+      const url = e.target.value.trim();
+      if (!url) return;
+      if (!/^https:\/\/[^\s"'<>]{1,500}$/i.test(url)) { toast('Link https:// ile başlamalı ve boşluk içermemeli', true); return; }
+      E.image = url;
+      $('#f-thumb').src = url;
+      $('#f-thumb').hidden = false;
+      $('#f-thumb-ph').hidden = true;
+      $('#f-rmimg').hidden = false;
+      toast('Görsel linki eklendi (Kaydet’e basmayı unutmayın)');
     }
   });
 
