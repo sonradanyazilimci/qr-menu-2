@@ -573,7 +573,7 @@
 
   let qrUrl = '';
   function renderTools() {
-    qrUrl = qrUrl || location.origin + '/';
+    qrUrl = qrUrl || location.origin + location.pathname.replace(/admin\/?$/, '');
     $('#view').innerHTML = `
       <h2 class="vt">QR kod &amp; yedekleme</h2>
       <p class="sub">Masalara koyacağınız QR kodu oluşturun ve verilerinizi yedekleyin.</p>
