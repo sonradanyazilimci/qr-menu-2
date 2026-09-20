@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Menü Yönetimi</title>
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <!-- Giriş -->
+  <main id="login" class="login" hidden>
+    <form id="loginForm" class="login-card" autocomplete="on">
+      <h1>Menü Yönetimi</h1>
+      <p>Devam etmek için yönetici hesabınızla giriş yapın.</p>
+      <label>E-posta
+        <input id="loginEmail" type="email" name="username" autocomplete="username" required>
+      </label>
+      <label>Şifre
+        <input id="loginPw" type="password" name="password" autocomplete="current-password" required autofocus>
+      </label>
+      <p id="loginErr" class="err" role="alert" hidden></p>
+      <button id="loginBtn" class="btn primary" type="submit">Giriş yap</button>
+    </form>
+  </main>
+
+  <!-- Uygulama -->
+  <div id="app" hidden>
+    <header class="bar">
+      <div class="bar-in">
+        <strong class="logo" id="appName">Menü Yönetimi</strong>
+        <nav class="tabs" id="tabs" role="tablist">
+          <button role="tab" data-view="products">Ürünler</button>
+          <button role="tab" data-view="categories">Kategoriler</button>
+          <button role="tab" data-view="tags">Etiketler</button>
+          <button role="tab" data-view="settings">Ayarlar</button>
+          <button role="tab" data-view="tools">QR &amp; Yedek</button>
+        </nav>
+        <div class="bar-act">
+          <a class="btn sm" href="/" target="_blank" rel="noopener">Menüyü gör ↗</a>
+          <button class="btn sm" id="logout" type="button">Çıkış</button>
+        </div>
+      </div>
+    </header>
+    <div id="pwWarn" class="warnbar" hidden>
+      ⚠ Size verilen başlangıç şifresini kullanıyorsunuz. <button type="button" id="goPw">Şifreyi şimdi değiştir</button>
+    </div>
+    <main id="view" class="view"></main>
+  </div>
+
+  <dialog id="editor" class="modal" aria-label="Ürün düzenle"></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <div id="printSheet" class="print-sheet" aria-hidden="true"></div>
+
+  <script src="/admin/qrm-admin.js"></script>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+node_modules/
+.firebase/
+*.log
+.env
+.env.*
+
+# npm run build ile üretilen paketler (depoda tutulmaz)
+public/qrm-menu.js
+public/admin/qrm-admin.js
+
+# Eski Express sürümünün yerel verisi
+legacy-express/data/

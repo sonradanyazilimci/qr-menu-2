@@ -1,0 +1,21 @@
+{
+  "name": "qr-menu",
+  "version": "2.0.0",
+  "private": true,
+  "description": "QR menü + yönetim paneli (Firebase Hosting + Firestore + Auth)",
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "watch": "node scripts/build.cjs --watch",
+    "serve": "npm run build && firebase emulators:start --only hosting",
+    "deploy": "npm run build && firebase deploy --only hosting,firestore",
+    "seed": "node scripts/seed.mjs"
+  },
+  "dependencies": {
+    "firebase": "^12.19.0",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  },
+  "type": "module"
+}

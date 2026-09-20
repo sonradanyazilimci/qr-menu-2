@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e8401c">
+  <title>Menü</title>
+  <link rel="stylesheet" href="/menu.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" id="brand" href="/" aria-label="Ana sayfa"></a>
+  </header>
+
+  <section class="hero"><h1 id="heroTitle">MENÜ</h1></section>
+
+  <div class="wrap">
+    <div class="searchrow">
+      <label class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 0 1 5.9 12.1l4.3 4.3-1.4 1.4-4.3-4.3A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/></svg>
+        <input id="q" type="search" placeholder="Menüde ara…" autocomplete="off" enterkeyhint="search">
+      </label>
+      <button id="openFilters" class="btn-filter" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2l-7 7v6l-4-2v-4L3 7V5Z"/></svg>
+        <span>Filtre</span><b id="filterBadge" hidden>0</b>
+      </button>
+    </div>
+
+    <div class="chips" id="quickChips" role="group" aria-label="Hızlı filtreler"></div>
+    <div class="activebar" id="activeBar" hidden></div>
+  </div>
+
+  <nav class="catnav" id="catNav" aria-label="Kategoriler"><div class="catnav-in" id="catNavIn"></div></nav>
+
+  <main class="wrap" id="menu" aria-live="polite">
+    <p class="state">Menü yükleniyor…</p>
+  </main>
+
+  <footer class="footer" id="footer"></footer>
+
+  <button id="toTop" class="to-top" type="button" aria-label="Yukarı çık" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 7 8 8-1.8 1.8L12 10.6 5.8 16.8 4 15l8-8Z"/></svg>
+  </button>
+
+  <dialog id="detail" class="sheet" aria-label="Ürün detayı"></dialog>
+  <dialog id="filters" class="sheet" aria-label="Filtreler"></dialog>
+
+  <script src="/qrm-menu.js"></script>
+  <script src="/menu.js"></script>
+</body>
+</html>

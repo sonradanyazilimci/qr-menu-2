@@ -1,0 +1,94 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Tek yönetici: erhan@local.com (Firebase Auth e-posta/şifre hesabı).
+    // Hesap e-postası doğrulanmış olarak oluşturulur; kayıt olan başka biri bu e-postayı alamaz.
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'erhan@local.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    function isText(v, maxLen) {
+      return v is string && v.size() <= maxLen;
+    }
+
+    function isNumOrNull(v) {
+      return v == null || v is number;
+    }
+
+    function validCategory(d) {
+      return isText(d.get('name', null), 80) && d.name.size() > 0
+        && d.get('active', true) is bool
+        && d.get('order', 0) is number;
+    }
+
+    function validTag(d) {
+      return isText(d.get('label', null), 30) && d.label.size() > 0
+        && isText(d.get('emoji', ''), 8)
+        && isText(d.get('color', ''), 7);
+    }
+
+    function validProduct(d) {
+      return isText(d.get('name', null), 120) && d.name.size() > 0
+        && isText(d.get('categoryId', null), 40)
+        && isText(d.get('description', ''), 600)
+        && isText(d.get('image', ''), 300000)
+        && isText(d.get('portion', ''), 40)
+        && isText(d.get('notes', ''), 300)
+        && isText(d.get('glutenNote', ''), 300)
+        && d.get('glutenStatus', 'unset') in ['unset', 'contains', 'free', 'option']
+        && isNumOrNull(d.get('price', null))
+        && isNumOrNull(d.get('calories', null))
+        && isNumOrNull(d.get('protein', null))
+        && isNumOrNull(d.get('carbs', null))
+        && isNumOrNull(d.get('fat', null))
+        && isNumOrNull(d.get('glutenPrice', null))
+        && d.get('allergens', []) is list && d.get('allergens', []).size() <= 14
+        && d.get('tags', []) is list && d.get('tags', []).size() <= 30
+        && d.get('variants', []) is list && d.get('variants', []).size() <= 12
+        && d.get('allergenVerified', false) is bool
+        && d.get('available', true) is bool
+        && d.get('order', 0) is number;
+    }
+
+    function validSettings(d) {
+      return isText(d.get('name', null), 60)
+        && isText(d.get('logo', ''), 300000)
+        && isText(d.get('calorieNote', ''), 400)
+        && isText(d.get('allergenNote', ''), 800);
+    }
+
+    // Menü herkese açık okunur; yalnızca yönetici yazabilir.
+    match /settings/{docId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && docId == 'main' && validSettings(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /categories/{docId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && validCategory(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /tags/{docId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && validTag(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /products/{docId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && validProduct(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // Diğer her şey kapalı
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
